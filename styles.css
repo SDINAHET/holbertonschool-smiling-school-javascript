@@ -37,7 +37,7 @@
 
 .btn:hover,
 .btn:active {
-  opacity: var(--opacity-value);
+  opacity: 0.9;
 }
 
 /* Header / Hero Styles */
@@ -187,55 +187,6 @@
 }
 
 /* Quotes Section  */
-
-/*begin add SD task1  loader sur fond violet*/
-/* Loader violet avec spinner au centre */
-.loader-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 392px; /* même hauteur que la section .quotes */
-  width: 100%;
-  background-color: #C271FF;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-/* Le spinner */
-.loader {
-  border: 10px solid rgba(255, 255, 255, 1);   /* cercle pâle (3 côtés visibles) */
-  border-bottom: 10px solid transparent;        /* partie manquante (¼ du cercle) */
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  animation: spin 2s linear infinite;
-}
-
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* @keyframes spin {
-  to { transform: rotate(360deg); }
-} */
-
-
-/* Important : positionner la section relative pour superposer le loader */
-.quotes.section {
-  position: relative;
-  height: 392px;
-}
-
-
-/*end add SD task1 */
 
 .quotes {
   height: 392px;
