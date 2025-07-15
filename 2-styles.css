@@ -334,20 +334,19 @@
 /* POPULAR SECTION  */
 
 /*begin add SD*/
-/* Loader violet pour la section "popular" */
+/* Loader violet superposé */
 .popular-loader-wrapper {
   position: relative;
-  height: 400px; /* même hauteur que la section */
+  height: 400px;
   background-color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-  margin-bottom: -400px; /* superposé à la section en dessous */
+  margin-bottom: -400px;
   overflow: hidden;
 }
 
-/* Le cercle animé */
 .loader-circle {
   width: 80px;
   height: 80px;
@@ -358,21 +357,19 @@
   transform: rotate(45deg);
 }
 
-/* Animation spin */
 @keyframes spin {
   0% { transform: rotate(45deg); }
   100% { transform: rotate(405deg); }
 }
 
-/* Animation de disparition */
 .popular-loader-wrapper.fade-out {
   opacity: 0;
   transition: opacity 0.6s ease-out;
   pointer-events: none;
 }
 
-/*--*/
-.loader {
+/* Loader de secours */
+#loader-popular {
   border: 10px solid #f3f3f3;
   border-top: 10px solid #C271FF;
   border-radius: 50%;
@@ -381,27 +378,37 @@
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+/* Carousel à carte */
+/* .carousel-container { */
+  /* position: relative; */
+  /* overflow: hidden; */
+  /* width: 100%; */
+  /* margin-left: -30px; */
+  /* margin-right: -30px; */
+/* } */
 
-/* Carousel Styling */
 .carousel-container {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* MODIFICATION */
+  /* margin-left: 0px;     MODIFICATION */
+  /* margin-right: 0px;    MODIFICATION */
   width: 100%;
+  max-width: 1200px; /* ✅ pour 4 cartes propres (4 x 25%) */
+  margin: 0 auto;
 }
+
 
 .carousel-track {
   display: flex;
   transition: transform 0.5s ease;
+  will-change: transform;
 }
 
 .carousel-card {
-  flex: 0 0 100%;
-  max-width: 100%;
-  padding: 0 15px;
+  flex: 0 0 20%;
+  max-width: 20%;
+  padding: 0px 5px;
+  box-sizing: border-box;
 }
 
 @media (min-width: 576px) {
@@ -417,21 +424,44 @@
   }
 }
 
+/* Boutons fléchés noirs */
 .carousel-btn {
   position: absolute;
   top: 40%;
-  background: #C271FF;
-  color: white;
+  background: transparent;
   border: none;
-  padding: 10px 15px;
+  /* padding: 0; */
+  transform: translateY(-50%);
   cursor: pointer;
   z-index: 2;
 }
+.carousel-btn img {
+  width: 40px;
+  height: auto;
+}
+
+
+.carousel-wrapper {
+  position: relative;
+  max-width: 1200px;
+  margin: auto;
+
+}
+
+/* Supprime le cadre noir autour au clic */
+.carousel-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .carousel-btn.left {
-  left: 0;
+  /* left: -20px; */
+  left: -40px;
+
 }
 .carousel-btn.right {
-  right: 0;
+  /* right: -20px; */
+  right: -40px;
 }
 
 

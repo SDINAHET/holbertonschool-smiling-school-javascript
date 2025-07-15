@@ -1,3 +1,4 @@
+/*js quote*/
 $(document).ready(function () {
   console.log("Document ready, executing AJAX for quotes...");
   const $carousel = $('#carouselExampleControls');
@@ -45,6 +46,7 @@ $(document).ready(function () {
 });
 
 
+/*js popular tutorials*/
 $(document).ready(function () {
   const carouselTrack = $(".carousel-track");
   const loader = $("#loader-popular");
