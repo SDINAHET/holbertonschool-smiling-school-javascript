@@ -20,7 +20,7 @@
 
     <!-- Bootstrap -->
     <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      src="https://code.jquery.com/jquery-3.4.1.min.js"  /*3.4.1*/
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
       crossorigin="anonymous"
     ></script>
@@ -200,18 +200,23 @@
           <div id="loader-popular" class="loader my-5 mx-auto"></div>
 
           <!-- Carousel -->
-          <div id="popular-carousel-container" class="carousel-container d-none">
-            <div class="carousel-track">
-              <!-- Cards seront injectées ici dynamiquement via JS -->
+          <div class="carousel-wrapper">
+            <!-- Flèche gauche -->
+            <button class="carousel-btn left">
+              <img src="images/arrow_black_left.png" alt="Previous">
+            </button>
+
+            <!-- Carrousel -->
+            <div id="popular-carousel-container" class="carousel-container d-none">
+              <div class="carousel-track">
+                <!-- Les cartes seront injectées ici par JS -->
+              </div>
             </div>
 
-          <!-- Flèches gauche/droite -->
-          <button class="carousel-btn left">
-            <img src="images/arrow_black_left.png" alt="Previous">
-          </button>
-          <button class="carousel-btn right">
-            <img src="images/arrow_black_right.png" alt="Next">
-          </button>
+            <!-- Flèche droite -->
+            <button class="carousel-btn right">
+              <img src="images/arrow_black_right.png" alt="Next">
+            </button>
           </div>
         </div>
       </section>
