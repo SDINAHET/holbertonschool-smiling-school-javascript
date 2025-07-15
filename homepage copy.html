@@ -263,74 +263,68 @@
     <!-- JS dynamique -->
     <script>
       $(document).ready(function () {
-        // Load quotes
-        const $carousel = $('#carouselExampleControls');
-        const $carouselInner = $carousel.find('.carousel-inner');
-        const $loaderWrapper = $('.loader-wrapper');
+      console.log("Document ready, executing AJAX for quotes...");
+      const $carousel = $('#carouselExampleControls');
+      const $carouselInner = $carousel.find('.carousel-inner');
+      const $loaderWrapper = $('.loader-wrapper');
 
-        $.ajax({
-          url: 'https://smileschool-api.hbtn.info/quotes',
-          method: 'GET',
-          success: function (quotes) {
-            quotes.forEach((quote, index) => {
-              const isActive = index === 0 ? 'active' : '';
-              const item = `
-                <div class="carousel-item ${isActive}">
-                  <div class="row mx-auto align-items-center">
-                    <div class="col-12 col-sm-2 col-lg-2 offset-lg-1 text-center">
-                      <img src="${quote.pic_url}" class="d-block align-self-center rounded-circle" alt="${quote.name}" />
-                    </div>
-                    <div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">
-                      <div class="quote-text">
-                        <p class="text-white">« ${quote.text} »</p>
-                        <h4 class="text-white font-weight-bold">${quote.name}</h4>
-                        <span class="text-white">${quote.title}</span>
-                      </div>
+      $.ajax({
+        url: 'https://smileschool-api.hbtn.info/quotes',
+        method: 'GET',
+        success: function (quotes) {
+          quotes.forEach((quote, index) => {
+            const isActive = index === 0 ? 'active' : '';
+            const item = `
+              <div class="carousel-item ${isActive}">
+                <div class="row mx-auto align-items-center">
+                  <div class="col-12 col-sm-2 col-lg-2 offset-lg-1 text-center">
+                    <img
+                      src="${quote.pic_url}"
+                      class="d-block align-self-center rounded-circle"
+                      alt="${quote.name}"
+                    />
+                  </div>
+                  <div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">
+                    <div class="quote-text">
+                      <p class="text-white">« ${quote.text} »</p>
+                      <h4 class="text-white font-weight-bold">${quote.name}</h4>
+                      <span class="text-white">${quote.title}</span>
                     </div>
                   </div>
-                </div>`;
-              $carouselInner.append(item);
-            });
+                </div>
+              </div>`;
+            $carouselInner.append(item);
+          });
 
-            $loaderWrapper.fadeOut('slow', () => $carousel.removeClass('d-none'));
-          },
-          error: () => {
-            $loaderWrapper.html('<p class="text-white">Erreur de chargement des citations</p>');
-          }
-        });
-
-        // Utilisation de la méthode générique pour les carrousels
-        loadTutorialCarousel(
-          'https://smileschool-api.hbtn.info/popular-tutorials',
-          '.carousel-track',
-          '#loader-popular',
-          '#popular-carousel-container',
-          '.carousel-btn.left',
-          '.carousel-btn.right'
-        );
-
-        loadTutorialCarousel(
-          'https://smileschool-api.hbtn.info/latest-videos',
-          '#latest-carousel-track',
-          '#loader-latest',
-          '.latest-carousel-container',
-          '#latest-prev',
-          '#latest-next'
-        );
+          // $loaderWrapper.hide(); // ✅ cache le fond violet + loader
+          $loaderWrapper.fadeOut('slow', function () {
+            $carousel.removeClass('d-none'); // ✅ affiche le carousel
+        // },
+          });
+        },
+        error: function () {
+          $loaderWrapper.html('<p class="text-white">Erreur de chargement des citations</p>');
+        }
       });
+    });
 
-      // ✅ Méthode générique pour les tutoriels
-      function loadTutorialCarousel(apiUrl, trackSelector, loaderSelector, containerSelector, prevBtnSelector, nextBtnSelector) {
-        const $track = $(trackSelector);
-        const $loader = $(loaderSelector);
-        const $container = $(containerSelector);
+
+
+      $(document).ready(function () {
+        const $carouselTrack = $('.carousel-track');
+        const $loaderWrapper = $('#popular-loader');       // fond violet
+        const $loaderCircle = $('#loader-popular');        // cercle blanc
+        const $container = $('#popular-carousel-container');
         let currentIndex = 0;
 
+        // Délai minimum
         const delay = new Promise(resolve => setTimeout(resolve, 3000));
-        const fetchData = $.get(apiUrl);
 
-        Promise.all([delay, fetchData]).then(([_, data]) => {
-          data.forEach(video => {
+        // Appel AJAX
+        const fetchTutorials = $.get('https://smileschool-api.hbtn.info/popular-tutorials');
+
+        Promise.all([delay, fetchTutorials]).then(([_, data]) => {
+          data.forEach((video) => {
             const card = `
               <div class="carousel-card">
                 <div class="card mx-2">
@@ -352,27 +346,15 @@
                   </div>
                 </div>
               </div>`;
-            $track.append(card);
+            $carouselTrack.append(card);
           });
 
-          $loader.fadeOut(150, () => $loader.remove());
+          // Supprime les deux loaders
+          $loaderWrapper.fadeOut(150, () => $loaderWrapper.remove());
+          $loaderCircle.fadeOut(150, () => $loaderCircle.remove());
+
+          // Affiche le carrousel
           $container.removeClass('d-none');
-        });
-
-        // Navigation à la carte
-        $(nextBtnSelector).click(() => {
-          const cardWidth = $(`${trackSelector} .carousel-card`).outerWidth(true);
-          const maxScroll = $track[0].scrollWidth - $track.outerWidth();
-          currentIndex++;
-          const scrollPos = Math.min(currentIndex * cardWidth, maxScroll);
-          $track.css('transform', `translateX(-${scrollPos}px)`);
-        });
-
-        $(prevBtnSelector).click(() => {
-          const cardWidth = $(`${trackSelector} .carousel-card`).outerWidth(true);
-          currentIndex = Math.max(0, currentIndex - 1);
-          const scrollPos = currentIndex * cardWidth;
-          $track.css('transform', `translateX(-${scrollPos}px)`);
         });
 
         function renderStars(starCount) {
@@ -382,9 +364,92 @@
           }
           return stars;
         }
-      }
-    </script>
 
+        // Navigation à la carte
+        $('.carousel-btn.right').click(() => {
+          const cardWidth = $('.carousel-card').outerWidth(true);
+          const maxScroll = $carouselTrack[0].scrollWidth - $carouselTrack.outerWidth();
+          currentIndex++;
+          const scrollPos = Math.min(currentIndex * cardWidth, maxScroll);
+          $carouselTrack.css('transform', `translateX(-${scrollPos}px)`);
+        });
+
+        $('.carousel-btn.left').click(() => {
+          const cardWidth = $('.carousel-card').outerWidth(true);
+          currentIndex = Math.max(0, currentIndex - 1);
+          const scrollPos = currentIndex * cardWidth;
+          $carouselTrack.css('transform', `translateX(-${scrollPos}px)`);
+        });
+      });
+
+
+$(document).ready(function () {
+  const $track = $('#latest-carousel-track');
+  const $loaderWrapper = $('#loader-latest');
+  const $container = $('.latest-carousel-container');
+  let currentIndex = 0;
+
+  const delay = new Promise(resolve => setTimeout(resolve, 3000));
+  const fetchVideos = $.get('https://smileschool-api.hbtn.info/latest-videos');
+
+  Promise.all([delay, fetchVideos]).then(([_, data]) => {
+    data.forEach((video) => {
+      const card = `
+        <div class="carousel-card">
+          <div class="card mx-2">
+            <img src="${video.thumb_url}" class="card-img-top" alt="${video.title}">
+            <div class="card-img-overlay text-center">
+              <img src="images/play.png" alt="Play" width="64px" class="align-self-center play-overlay">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title font-weight-bold">${video.title}</h5>
+              <p class="card-text text-muted">${video['sub-title']}</p>
+              <div class="creator d-flex align-items-center">
+                <img src="${video.author_pic_url}" width="30px" class="rounded-circle" alt="Author">
+                <h6 class="pl-3 m-0 main-color">${video.author}</h6>
+              </div>
+              <div class="info pt-3 d-flex justify-content-between">
+                <div class="rating">${renderStars(video.star)}</div>
+                <span class="main-color">${video.duration}</span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      $track.append(card);
+    });
+
+    $loaderWrapper.fadeOut(150, () => $loaderWrapper.remove());
+    $container.removeClass('d-none');
+  });
+
+  function renderStars(starCount) {
+    let stars = '';
+    for (let i = 0; i < 5; i++) {
+      stars += `<img src="images/${i < starCount ? 'star_on' : 'star_off'}.png" width="15px" alt="star">`;
+    }
+    return stars;
+  }
+
+  $('#latest-next').click(() => {
+    const cardWidth = $('.latest-carousel-track .carousel-card').outerWidth(true);
+    const maxScroll = $track[0].scrollWidth - $track.outerWidth();
+    currentIndex++;
+    const scrollPos = Math.min(currentIndex * cardWidth, maxScroll);
+    $track.css('transform', `translateX(-${scrollPos}px)`);
+  });
+
+  $('#latest-prev').click(() => {
+    const cardWidth = $('.latest-carousel-track .carousel-card').outerWidth(true);
+    currentIndex = Math.max(0, currentIndex - 1);
+    const scrollPos = currentIndex * cardWidth;
+    $track.css('transform', `translateX(-${scrollPos}px)`);
+  });
+});
+
+
+
+
+    </script>
 
   </body>
 </html>
