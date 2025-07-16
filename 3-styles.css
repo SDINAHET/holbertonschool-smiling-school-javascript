@@ -606,23 +606,29 @@
   }
 }
 
+/*--------------------------------------------------------*/
 /*add SD latest video*/
 /* === LATEST VIDEOS SECTION === */
 .d-none {
   display: none !important;
 }
 
-
 .latest-videos {
   background-color: #fff;
   padding: 80px 0;
 }
+
+.latest-videos .section-header {
+  margin-bottom: 60px; /* ou 2.5rem */
+}
+
 
 .latest-loader-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 200px;
+  margin-bottom: auto
 }
 
 .latest-loader {
@@ -637,11 +643,12 @@
 .latest-carousel-wrapper {
   position: relative;
   max-width: 1200px;
-  margin: auto;
-  padding: 0 5px;
+  margin: 0 auto;
+  /* padding: 0 5px; */
 }
 
 .latest-carousel-container {
+  position: relative; /* Ajoute ça si manquant */
   overflow: hidden;
   width: 100%;
 }
@@ -672,6 +679,18 @@
     max-width: 25%;
   }
 }
+
+.latest-carousel-track .carousel-card {
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+.latest-carousel-track {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+  will-change: transform;
+}
+
 
 .latest-carousel-btn {
   position: absolute;
@@ -726,8 +745,21 @@
   }
 }
 
+.carousel-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.latest-carousel-btn:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+
 
 /*end add SD latest video*/
+/*--------------------------------------------------------*/
+
 
 /* SMILES Section  */
 
