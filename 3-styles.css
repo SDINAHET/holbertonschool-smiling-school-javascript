@@ -608,6 +608,11 @@
 
 /*add SD latest video*/
 /* === LATEST VIDEOS SECTION === */
+.d-none {
+  display: none !important;
+}
+
+
 .latest-videos {
   background-color: #fff;
   padding: 80px 0;
@@ -621,10 +626,10 @@
 }
 
 .latest-loader {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border: 8px solid #dfdede;
-  border-top: 8px solid #9a38d3;
+  border-top: 8px solid #C271FF;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -633,7 +638,7 @@
   position: relative;
   max-width: 1200px;
   margin: auto;
-  padding: 0 15px;
+  padding: 0 5px;
 }
 
 .latest-carousel-container {
@@ -701,6 +706,26 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+@media screen and (max-width: 575px) {
+  .latest-carousel-btn {
+    display: block !important;
+    z-index: 5;
+  }
+
+  /* .latest-carousel-btn.left {
+    left: 5px !important;
+  }
+
+  .latest-carousel-btn.right {
+    right: 5px !important;
+  } */
+
+  .latest-carousel-wrapper {
+    overflow: visible; /* important pour que les flèches ne soient pas masquées */
+  }
+}
+
 
 /*end add SD latest video*/
 

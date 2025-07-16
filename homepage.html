@@ -203,7 +203,7 @@
           <!-- Carousel -->
           <div class="carousel-wrapper">
             <!-- Flèche gauche -->
-            <button class="carousel-btn left">
+            <button class="carousel-btn left  d-none">
               <img src="images/arrow_black_left.png" alt="Previous">
             </button>
 
@@ -215,7 +215,7 @@
             </div>
 
             <!-- Flèche droite -->
-            <button class="carousel-btn right">
+            <button class="carousel-btn right  d-none">
               <img src="images/arrow_black_right.png" alt="Next">
             </button>
           </div>
@@ -237,7 +237,7 @@
 
         <!-- Carrousel -->
         <div class="latest-carousel-wrapper">
-          <button class="latest-carousel-btn left" id="latest-prev">
+          <button class="latest-carousel-btn left  d-none" id="latest-prev">
             <img src="images/arrow_black_left.png" alt="Previous" />
           </button>
 
@@ -247,7 +247,7 @@
             </div>
           </div>
 
-          <button class="latest-carousel-btn right" id="latest-next">
+          <button class="latest-carousel-btn right d-none" id="latest-next">
             <img src="images/arrow_black_right.png" alt="Next" />
           </button>
         </div>
@@ -358,6 +358,10 @@
           $loader.fadeOut(150, () => $loader.remove());
           $container.removeClass('d-none');
         });
+
+        // ✅ Affiche les flèches de navigation après le chargement
+        $(prevBtnSelector).removeClass('d-none');
+        $(nextBtnSelector).removeClass('d-none');
 
         // Navigation à la carte
         $(nextBtnSelector).click(() => {
