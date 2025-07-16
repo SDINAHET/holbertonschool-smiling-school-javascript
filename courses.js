@@ -12,9 +12,33 @@ function fetchCourses(query = '', topic = '', sort = '') {
     },
     success: function (data) {
       $('#loader').hide();
-      $('.video-cards-container').empty();
+      $('.video-cards-container').html(
+        data.courses.map(course => generateCard(course)).join('')
+      );
+    }
+  });
+}
 
-      $('.search-text-area').val(data.q || '');
+function formatLabel(label) {
+  return label
+    .replace(/_/g, ' ')                  // Remplacer underscore par espace
+    .replace(/\b\w/g, c => c.toUpperCase()); // Majuscule à chaque mot
+}
+
+function fetchCourses(query = '', topic = '', sort = '') {
+  $('#loader').show();
+  $('.video-cards-container').empty();
+
+  $.ajax({
+    url: 'https://smileschool-api.hbtn.info/courses',
+    method: 'GET',
+    data: {
+      q: query,
+      topic: topic,
+      sort: sort
+    },
+    success: function (data) {
+      $('#loader').hide();
       $('.video-cards-container').html(
         data.courses.map(course => generateCard(course)).join('')
       );
@@ -52,38 +76,42 @@ function generateCard(course) {
   `;
 }
 
+function updateDropdown(menuId, labelId, options) {
+  const menu = $(`#${menuId}`);
+  const label = $(`#${labelId}`);
+  menu.empty();
+
+  options.forEach(option => {
+    const displayText = formatLabel(option);
+    const item = $(`<a class="dropdown-item" href="#">${displayText}</a>`);
+    item.on('click', function (e) {
+      e.preventDefault();
+      label.text(displayText);
+      label.data('value', option); // Stocker la vraie valeur en data-value
+      fetchWithFilters();
+    });
+    menu.append(item);
+  });
+}
+
+
+function fetchWithFilters() {
+  const query = $('.search-text-area').val();
+  const topic = $('#topic-label').data('value') || '';
+  const sort = $('#sort-label').data('value') || '';
+  fetchCourses(query, topic, sort);
+}
+
+
 $(document).ready(function () {
-  // Load dropdowns
-  $.get('https://smileschool-api.hbtn.info/courses', function(data) {
-    const topicSelect = $('#topic-select');
-    const sortSelect = $('#sort-select');
+  // Charger dynamiquement les options depuis l'API
+  $.get('https://smileschool-api.hbtn.info/courses', function (data) {
+    updateDropdown('topic-options', 'topic-label', data.topics);
+    updateDropdown('sort-options', 'sort-label', data.sorts);
 
-    topicSelect.empty();
-    sortSelect.empty();
-
-    data.topics.forEach(topic => {
-      topicSelect.append(`<option value="${topic}">${topic}</option>`);
-    });
-    data.sorts.forEach(sort => {
-      sortSelect.append(`<option value="${sort}">${sort}</option>`);
-    });
-
-    // Initial fetch with defaults
-    const q = $('.search-text-area').val();
-    fetchCourses(q, topicSelect.val(), sortSelect.val());
+    fetchWithFilters();
   });
 
-  $('.search-text-area').on('input', function () {
-    const q = $(this).val();
-    const topic = $('#topic-select').val();
-    const sort = $('#sort-select').val();
-    fetchCourses(q, topic, sort);
-  });
-
-  $('#topic-select, #sort-select').on('change', function () {
-    const q = $('.search-text-area').val();
-    const topic = $('#topic-select').val();
-    const sort = $('#sort-select').val();
-    fetchCourses(q, topic, sort);
-  });
+  // Réagir à la recherche en temps réel
+  $('.search-text-area').on('input', fetchWithFilters);
 });

@@ -762,6 +762,37 @@
 
 
 /* SMILES Section  */
+/* begin add SD*/
+/* .select-custom {
+  background-color: #c271ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-weight: bold;
+  font-size: 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+  transition: background-color 0.3s ease;
+}
+
+.select-custom:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(199, 113, 255, 0.5);
+}
+
+.section.search {
+  background-color: #c271ff;
+  padding: 2rem 0;
+} */
+
+/*end add SD*/
+
 
 .smiles {
   height: auto;

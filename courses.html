@@ -130,13 +130,25 @@
                 />
               </div>
             </div>
+<!-- TOPIC -->
 <div class="col-12 col-sm-6 col-lg-4 box2">
   <span class="text-white font-weight-bold drop-down-title">TOPIC</span>
-  <select id="topic-select" class="form-control mt-1"></select>
+  <div class="dropdown">
+    <a class="btn dropdown-toggle text-left" href="#" role="button" id="topicDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span id="topic-label">All</span>
+    </a>
+    <div class="dropdown-menu mt-0" aria-labelledby="topicDropdown" id="topic-options"></div>
+  </div>
 </div>
+<!-- SORT -->
 <div class="col-12 col-sm-6 col-lg-4 box3">
   <span class="text-white font-weight-bold drop-down-title">SORT BY</span>
-  <select id="sort-select" class="form-control mt-1"></select>
+  <div class="dropdown">
+    <a class="btn dropdown-toggle text-left" href="#" role="button" id="sortDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span id="sort-label">Most popular</span>
+    </a>
+    <div class="dropdown-menu mt-0" aria-labelledby="sortDropdown" id="sort-options"></div>
+  </div>
 </div>
               <!-- <div class="dropdown">
                 <a
